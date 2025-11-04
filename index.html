@@ -18,7 +18,8 @@
         h1 {
             color: var(--tg-theme-text-color, #000);
             font-size: 1.8em;
-            margin-bottom: 25px;
+            /* Уменьшаем нижний отступ для заголовка */
+            margin-bottom: 15px; 
             padding-bottom: 10px;
             border-bottom: 2px solid var(--tg-theme-hint-color, #d1d1d6);
         }
@@ -26,8 +27,8 @@
         .input-group {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
-            gap: 15px; 
+            /* Уменьшаем нижний отступ между группами ввода */
+            margin-bottom: 10px; 
             padding: 5px 0;
         }
         
@@ -51,6 +52,7 @@
             color: var(--tg-theme-text-color, #000);
             text-align: right;
             transition: border-color 0.2s;
+            font-size: 16px; 
         }
 
         input:focus {
@@ -60,7 +62,8 @@
 
         #result_output { 
             font-size: 1em;
-            margin-top: 30px; 
+            /* Уменьшаем верхний отступ перед блоком результата */
+            margin-top: 20px; 
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
