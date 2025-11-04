@@ -15,25 +15,38 @@
             margin: 0;
         }
         .input-group {
+            display: flex; /* Используем Flexbox для расположения элементов в ряд */
+            align-items: center; /* Выравнивание по вертикали по центру */
             margin-bottom: 15px;
+            gap: 10px; /* Добавляем небольшой отступ между лейблом и полем */
         }
         label {
-            display: block;
+            /* Убеждаемся, что лейбл занимает нужную ширину */
+            width: 50%; 
+            min-width: 100px;
+            flex-shrink: 0; /* Запрещаем сжиматься */
+            
             font-weight: normal;
-            margin-bottom: 5px;
-            color: var(--tg-theme-hint-color, #888);
+            color: var(--tg-theme-text-color, black); /* Используем основной цвет текста */
         }
         input { 
-            width: 100%; 
-            padding: 12px; 
+            width: 50%; /* Ограничиваем ширину поля ввода */
+            max-width: 150px; /* Чтобы поле не было слишком широким на больших экранах */
+            padding: 8px 12px; /* Чуть уменьшаем отступы для компактности */
             box-sizing: border-box; 
             border: 1px solid var(--tg-theme-hint-color, #ccc);
             border-radius: 8px;
             background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
             color: var(--tg-theme-text-color, black);
+            text-align: right; /* Числа лучше смотрятся прижатыми вправо */
+        }
+        /* Убираем лишние стили, которые Flexbox решает сам */
+        label, input {
+            margin-bottom: 0;
+            display: block;
         }
         #result_output { 
-            font-size: 1em; /* Уменьшаем размер шрифта */
+            font-size: 1em;
             margin-top: 25px; 
             padding: 15px;
             border: 1px solid var(--tg-theme-button-color, blue);
@@ -49,22 +62,22 @@
 
     <div class="input-group">
         <label for="input_copy">Копия:</label>
-        <input type="number" id="input_copy" placeholder="Введите X для Копии" step="100">
+        <input type="number" id="input_copy" placeholder="X" step="100">
     </div>
     
     <div class="input-group">
         <label for="input_framed_copy">Копия в рамке:</label>
-        <input type="number" id="input_framed_copy" placeholder="Введите X для Копии в рамке" step="100">
+        <input type="number" id="input_framed_copy" placeholder="X" step="100">
     </div>
     
     <div class="input-group">
         <label for="input_original">Оригинал:</label>
-        <input type="number" id="input_original" placeholder="Введите X для Оригинала" step="100">
+        <input type="number" id="input_original" placeholder="X" step="100">
     </div>
     
     <div class="input-group">
         <label for="input_framed_original">Оригинал в рамке:</label>
-        <input type="number" id="input_framed_original" placeholder="Введите X для Оригинала в рамке" step="100">
+        <input type="number" id="input_framed_original" placeholder="X" step="100">
     </div>
     
     <div id="result_output">Нажмите кнопку **РАССЧИТАТЬ** внизу.</div>
@@ -156,7 +169,6 @@
                     output += `  — Ошибка ввода\n\n`;
                     hasError = true;
                 } else {
-                    // Выводим округленное число без пробела и с символом рубля
                     output += `  — ${calculationResult.r}₽\n\n`; 
                 }
             });
