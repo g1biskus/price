@@ -41,8 +41,8 @@
         
         input { 
             width: 50%;
-            /* ИЗМЕНЕНИЕ: Уменьшаем max-width для лучшего выравнивания */
-            max-width: 120px; 
+            /* ИЗМЕНЕНИЕ: Увеличиваем max-width для расширения поля */
+            max-width: 180px; 
             padding: 10px 12px;
             box-sizing: border-box; 
             border: 1px solid var(--tg-theme-hint-color, #ccc);
@@ -86,11 +86,11 @@
             font-weight: 500;
         }
         
-        /* Дополнительное выравнивание: устанавливаем минимальную ширину для цен */
         .result-price {
             font-weight: 700;
-            min-width: 120px; /* Должно соответствовать max-width input */
-            text-align: right; /* Важно: выравнивание текста справа */
+            /* ИЗМЕНЕНИЕ: Увеличиваем min-width для выравнивания */
+            min-width: 180px; 
+            text-align: right; 
         }
     </style>
 </head>
@@ -175,7 +175,6 @@
             Telegram.WebApp.MainButton.onClick(calculateAll);
         }
         
-        // НОВАЯ ФУНКЦИЯ: Переключение по Enter
         function setupInputListeners() {
             inputs.forEach((item, index) => {
                 const inputElement = document.getElementById(item.id);
