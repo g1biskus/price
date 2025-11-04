@@ -19,7 +19,7 @@
         }
         label {
             display: block;
-            font-weight: normal; /* Убираем полужирный шрифт у подписей */
+            font-weight: normal;
             margin-bottom: 5px;
             color: var(--tg-theme-hint-color, #888);
         }
@@ -33,14 +33,13 @@
             color: var(--tg-theme-text-color, black);
         }
         #result_output { 
-            font-size: 1.1em; 
+            font-size: 1em; /* Уменьшаем размер шрифта */
             margin-top: 25px; 
             padding: 15px;
             border: 1px solid var(--tg-theme-button-color, blue);
             border-radius: 8px;
             white-space: pre-wrap;
             background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            /* Убрано font-weight: bold; */
         }
     </style>
 </head>
@@ -117,8 +116,13 @@
             // Формула: R = X + 500 + (Y / 70 * 100)
             const result = x + 500 + (y / 70 * 100);
             
-            // Округляем до ближайшего целого числа
-            return { r: Math.round(result) }; 
+            // Округление в большую сторону до десятых:
+            // 1. Умножаем на 10
+            // 2. Округляем в большую сторону (Math.ceil)
+            // 3. Делим на 10
+            const roundedResult = Math.ceil(result * 10) / 10;
+            
+            return { r: roundedResult.toFixed(1) }; // Фиксируем один знак после точки
         }
 
         /**
@@ -152,12 +156,11 @@
                 if (calculationResult === null) {
                     output += `  — Пропущено\n\n`;
                 } else if (calculationResult === 'ERROR_RANGE') {
-                    // Упрощенный вывод ошибки без технических деталей
                     output += `  — Ошибка ввода\n\n`;
                     hasError = true;
                 } else {
-                    // Выводим округленное число с символом рубля
-                    output += `  — ${calculationResult.r} ₽\n\n`; 
+                    // Выводим округленное число без пробела и с символом рубля
+                    output += `  — ${calculationResult.r}₽\n\n`; 
                 }
             });
 
