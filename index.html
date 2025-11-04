@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="ru"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Калькулятор Mini App с Таблицей&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://telegram.org/js/telegram-web-app.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Стили, адаптирующиеся к теме Telegram (светлая/темная) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: sans-serif;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--tg-theme-bg-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--tg-theme-text-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input, button {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--tg-theme-button-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--tg-theme-button-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--tg-theme-button-text-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#result_output {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--tg-theme-button-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>white-space: pre-wrap;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Калькулятор по Таблице&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Введите число **X** (шаг **кратный 100**, от **900** до **55000**):&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="number" id="input_x" placeholder="Введите X (например, 1500)" required min="900" max="55000" step="100"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="calculate()"&gt;Рассчитать результат&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="result_output"&gt;Результат: Ожидание ввода...&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- 1. ВСТРОЕННАЯ КАРТА ДАННЫХ X:Y (ГЕНЕРИРУЕТСЯ АВТОМАТИЧЕСКИ) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// X: от 900 до 55000, шаг 100</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Y: от 2000 до 15000, линейный рост</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const dataMap = (function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const X_MIN = 900;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const X_MAX = 55000;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const X_STEP = 100;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const Y_MIN = 2000;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const Y_MAX = 15000;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totalIntervals = (X_MAX - X_MIN) / X_STEP;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const Y_STEP_SIZE = (Y_MAX - Y_MIN) / totalIntervals;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let map = {};</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let x = X_MIN; x &lt;= X_MAX; x += X_STEP) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const i = (x - X_MIN) / X_STEP;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const yValue = Y_MIN + i * Y_STEP_SIZE;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>map[x] = parseFloat(yValue.toFixed(2));<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return map;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>})();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// ------------------------------------------------------------------</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 2. Инициализация Telegram Web App</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Telegram.WebApp.ready();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Находит Y по X в dataMap и выполняет расчет по формуле: R = X + 500 + (Y / 70 * 100).</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function calculate() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const x = parseInt(document.getElementById('input_x').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const resultOutput = document.getElementById('result_output');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- 3. Проверка Ввода ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isNaN(x) || x &lt; 900 || x &gt; 55000 || (x % 100 !== 0)) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resultOutput.innerHTML = '🔴 **Ошибка ввода:**&lt;br&gt;Введите X кратное 100, в диапазоне от 900 до 55000.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Telegram.WebApp.showAlert('Неверный ввод X. Проверьте диапазон и кратность.');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const y = dataMap[x];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- 4. Выполнение Расчета ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const result = x + 500 + (y / 70 * 100);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- 5. Вывод Результата ---</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const outputText = `🟢 **Успех!**\n\nВведено X: ${x}\nНайдено Y: ${y.toFixed(2)}\n\n**Итоговый Результат (R): ${result.toFixed(2)}**`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>resultOutput.innerHTML = outputText.replace(/\n/g, '&lt;br&gt;');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Обновление Основной Кнопки Telegram</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Telegram.WebApp.MainButton.setText(`Итоговый R: ${result.toFixed(2)}`);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!Telegram.WebApp.MainButton.isVisible) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Telegram.WebApp.MainButton.show();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
