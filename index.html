@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* CSS стили остаются без изменений */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             padding: 10px 20px 80px 20px; 
@@ -41,7 +42,6 @@
         
         input { 
             width: 50%;
-            /* ИЗМЕНЕНИЕ: Увеличиваем max-width для расширения поля */
             max-width: 180px; 
             padding: 10px 12px;
             box-sizing: border-box; 
@@ -88,7 +88,6 @@
         
         .result-price {
             font-weight: 700;
-            /* ИЗМЕНЕНИЕ: Увеличиваем min-width для выравнивания */
             min-width: 180px; 
             text-align: right; 
         }
@@ -99,50 +98,51 @@
 
     <div class="input-group">
         <label for="input_copy">Копия:</label>
-        <input type="number" id="input_copy" placeholder="Цена запчасти" step="100">
+        <input type="number" id="input_copy" placeholder="Цена запчасти" step="1"> 
     </div>
     
     <div class="input-group">
         <label for="input_framed_copy">Копия в рамке:</label>
-        <input type="number" id="input_framed_copy" placeholder="Цена запчасти" step="100">
+        <input type="number" id="input_framed_copy" placeholder="Цена запчасти" step="1">
     </div>
     
     <div class="input-group">
         <label for="input_original">Оригинал:</label>
-        <input type="number" id="input_original" placeholder="Цена запчасти" step="100">
+        <input type="number" id="input_original" placeholder="Цена запчасти" step="1">
     </div>
     
     <div class="input-group">
         <label for="input_framed_original">Оригинал в рамке:</label>
-        <input type="number" id="input_framed_original" placeholder="Цена запчасти" step="100">
+        <input type="number" id="input_framed_original" placeholder="Цена запчасти" step="1">
     </div>
     
     <div id="result_output">Нажмите кнопку внизу.</div>
 
     <script>
-        // --- 1. ВСТРОЕННАЯ КАРТА ДАННЫХ X:Y (ГЕНЕРАЦИЯ) ---
+        // 1. КОНСТАНТЫ ДЛЯ СТЕПЕННОЙ ИНТЕРПОЛЯЦИИ Y
         const X_MIN = 900;
         const X_MAX = 55000;
-        const X_STEP = 100;
-        const dataMap = (function() {
-            const Y_MIN = 2000;
-            const Y_MAX = 15000;
-            const totalIntervals = (X_MAX - X_MIN) / X_STEP;
-            const Y_STEP_SIZE = (Y_MAX - Y_MIN) / totalIntervals; 
+        const Y_MIN = 2000;
+        const Y_MAX = 15000; // Используем обновленное значение!
+        const P = 0.693;
+
+        // 2. Функция расчета Y (Степенная интерполяция)
+        function calculateY(x) {
+            // Если X выходит за пределы, используем крайние значения Y
+            if (x < X_MIN) return Y_MIN;
+            if (x >= X_MAX) return Y_MAX; 
             
-            let map = {};
-            for (let x = X_MIN; x <= X_MAX; x += X_STEP) {
-                const i = (x - X_MIN) / X_STEP; 
-                const yValue = Y_MIN + i * Y_STEP_SIZE;
-                map[x] = parseFloat(yValue.toFixed(2)); 
-            }
-            return map;
-        })();
-        // ------------------------------------------------------------------
+            const normalizedX = (x - X_MIN) / (X_MAX - X_MIN);
+            
+            // Y = Ymin + (Ymax - Ymin) * ((X - Xmin) / (Xmax - Xmin))^p
+            const y = Y_MIN + (Y_MAX - Y_MIN) * Math.pow(normalizedX, P);
+            
+            return y;
+        }
 
-        // 2. Инициализация Telegram Web App
+        // 3. Инициализация Telegram Web App
         Telegram.WebApp.ready();
-
+        
         const inputs = [
             { id: 'input_copy', name: 'Копия' },
             { id: 'input_framed_copy', name: 'Копия в рамке' },
@@ -150,25 +150,26 @@
             { id: 'input_framed_original', name: 'Оригинал в рамке' }
         ];
 
+        // 4. ГЛАВНАЯ ФУНКЦИЯ РАСЧЕТА (Единая Формула R)
         function calculateSingle(x) {
-            if (isNaN(x) || x === 0) {
+            if (isNaN(x) || x <= 0) {
                 return null;
             }
-            if (x < X_MIN || x > X_MAX || (x % X_STEP !== 0)) {
-                return 'ERROR_RANGE';
-            }
-
-            const y = dataMap[x];
             
-            // Формула: R = X + 500 + (Y / 70 * 100)
+            // Шаг 1: Рассчитываем Y по формуле интерполяции
+            const y = calculateY(x);
+            
+            // Шаг 2: Применяем ЕДИНУЮ формулу R
+            // R = X + 500 + (Y / 70 * 100)
             const result = x + 500 + (y / 70 * 100);
             
-            // Округление в большую сторону до ближайшего целого числа
+            // Шаг 3: Округление в большую сторону
             const roundedResult = Math.ceil(result);
             
             return { r: roundedResult }; 
         }
-
+        // ... остальной код обработки кнопок и ввода (без изменений) ...
+        
         function setupMainButton() {
             Telegram.WebApp.MainButton.setText("РАССЧИТАТЬ ВСЕ ЦЕНЫ");
             Telegram.WebApp.MainButton.show();
@@ -207,15 +208,14 @@
 
             inputs.forEach(item => {
                 const inputElement = document.getElementById(item.id);
-                const x = parseInt(inputElement.value) || 0; 
+                // Читаем значение без округления по шагу 100, так как интерполяция работает с любым X
+                const x = parseFloat(inputElement.value) || 0; 
                 
-                const calculationResult = calculateSingle(x);
+                // Передаем X в единую функцию расчета
+                const calculationResult = calculateSingle(x); 
                 
                 if (calculationResult === null) {
                     resultHtml += `<div class="result-item"><span class="result-name">${item.name}</span><span>Пропущено</span></div>`;
-                } else if (calculationResult === 'ERROR_RANGE') {
-                    resultHtml += `<div class="result-item"><span class="result-name">${item.name}</span><span style="color: #ffdddd;">Ошибка ввода</span></div>`;
-                    hasError = true;
                 } else {
                     resultHtml += `<div class="result-item"><span class="result-name">${item.name}</span><span class="result-price">${calculationResult.r}₽</span></div>`;
                 }
