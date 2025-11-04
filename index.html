@@ -50,10 +50,10 @@
             const X_STEP = 100;
             const Y_MIN = 2000;
             const Y_MAX = 15000;
-            
+
             const totalIntervals = (X_MAX - X_MIN) / X_STEP;
             const Y_STEP_SIZE = (Y_MAX - Y_MIN) / totalIntervals; 
-            
+
             let map = {};
             for (let x = X_MIN; x <= X_MAX; x += X_STEP) {
                 const i = (x - X_MIN) / X_STEP; 
@@ -76,7 +76,7 @@
             // Привязываем функцию calculate к нажатию на Главную Кнопку
             Telegram.WebApp.MainButton.onClick(calculate);
         }
-        
+
         // Запускаем настройку кнопки после загрузки
         setupMainButton();
 
@@ -96,13 +96,13 @@
             }
 
             const y = dataMap[x];
-            
+
             // Выполнение Расчета: R = X + 500 + (Y / 70 * 100)
             const result = x + 500 + (y / 70 * 100);
 
             // Вывод Результата
             const outputText = `🟢 **Успех!**\n\nВведено X: ${x}\nНайдено Y: ${y.toFixed(2)}\n\n**Итоговый Результат (R): ${result.toFixed(2)}**`;
-            
+
             resultOutput.innerHTML = outputText.replace(/\n/g, '<br>');
 
             // Обновление Основной Кнопки Telegram для показа результата и повтора
