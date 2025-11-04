@@ -19,7 +19,7 @@
         }
         label {
             display: block;
-            font-weight: bold;
+            font-weight: normal; /* Убираем полужирный шрифт у подписей */
             margin-bottom: 5px;
             color: var(--tg-theme-hint-color, #888);
         }
@@ -40,13 +40,13 @@
             border-radius: 8px;
             white-space: pre-wrap;
             background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
-            font-weight: bold;
+            /* Убрано font-weight: bold; */
         }
     </style>
 </head>
 <body>
     <h1>Расчет стоимости</h1>
-    <p>Введите число **X** для каждого типа:</p>
+    <p>Введите число X для каждого типа:</p>
 
     <div class="input-group">
         <label for="input_copy">Копия (X):</label>
@@ -108,7 +108,6 @@
             if (isNaN(x) || x === 0) {
                 return null;
             }
-            // Упрощенная проверка корректности диапазона/шага для скрытия деталей
             if (x < X_MIN || x > X_MAX || (x % X_STEP !== 0)) {
                 return 'ERROR_RANGE';
             }
@@ -117,7 +116,9 @@
             
             // Формула: R = X + 500 + (Y / 70 * 100)
             const result = x + 500 + (y / 70 * 100);
-            return { r: result.toFixed(2) };
+            
+            // Округляем до ближайшего целого числа
+            return { r: Math.round(result) }; 
         }
 
         /**
@@ -136,7 +137,7 @@
          */
         function calculateAll() {
             const resultOutput = document.getElementById('result_output');
-            let output = '💰 **Итоговые Цены:**\n\n';
+            let output = 'Итоговые Цены:\n\n';
             let hasError = false;
 
             // Проходим по всем четырем полям ввода
@@ -149,13 +150,14 @@
                 output += `${item.name}:\n`;
                 
                 if (calculationResult === null) {
-                    output += `  — Пропущено (X не введено)\n\n`;
+                    output += `  — Пропущено\n\n`;
                 } else if (calculationResult === 'ERROR_RANGE') {
-                    output += `  — 🔴 **Ошибка ввода!**\n\n`;
+                    // Упрощенный вывод ошибки без технических деталей
+                    output += `  — Ошибка ввода\n\n`;
                     hasError = true;
                 } else {
-                    // Выводим только итоговую цену (R)
-                    output += `  — **${calculationResult.r}**\n\n`;
+                    // Выводим округленное число с символом рубля
+                    output += `  — ${calculationResult.r} ₽\n\n`; 
                 }
             });
 
