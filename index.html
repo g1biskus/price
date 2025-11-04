@@ -41,7 +41,8 @@
         
         input { 
             width: 50%;
-            max-width: 150px;
+            /* ИЗМЕНЕНИЕ: Уменьшаем max-width для лучшего выравнивания */
+            max-width: 120px; 
             padding: 10px 12px;
             box-sizing: border-box; 
             border: 1px solid var(--tg-theme-hint-color, #ccc);
@@ -61,9 +62,7 @@
         #result_output { 
             font-size: 1em;
             margin-top: 5px; 
-            /* ----- ИЗМЕНЕНИЕ: Уменьшаем вертикальный padding ----- */
             padding: 12px 20px; 
-            /* -------------------------------------------------- */
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             white-space: pre-wrap;
@@ -86,9 +85,12 @@
         .result-name {
             font-weight: 500;
         }
-
+        
+        /* Дополнительное выравнивание: устанавливаем минимальную ширину для цен */
         .result-price {
             font-weight: 700;
+            min-width: 120px; /* Должно соответствовать max-width input */
+            text-align: right; /* Важно: выравнивание текста справа */
         }
     </style>
 </head>
