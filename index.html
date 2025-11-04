@@ -45,25 +45,25 @@
 </head>
 <body>
     <h1>Расчет стоимости</h1>
-    <p>Введите число X для каждого типа:</p>
+    <p>Введите число X для каждого типа:</p> 
 
     <div class="input-group">
-        <label for="input_copy">Копия (X):</label>
+        <label for="input_copy">Копия:</label>
         <input type="number" id="input_copy" placeholder="Введите X для Копии" step="100">
     </div>
     
     <div class="input-group">
-        <label for="input_framed_copy">Копия в рамке (X):</label>
+        <label for="input_framed_copy">Копия в рамке:</label>
         <input type="number" id="input_framed_copy" placeholder="Введите X для Копии в рамке" step="100">
     </div>
     
     <div class="input-group">
-        <label for="input_original">Оригинал (X):</label>
+        <label for="input_original">Оригинал:</label>
         <input type="number" id="input_original" placeholder="Введите X для Оригинала" step="100">
     </div>
     
     <div class="input-group">
-        <label for="input_framed_original">Оригинал в рамке (X):</label>
+        <label for="input_framed_original">Оригинал в рамке:</label>
         <input type="number" id="input_framed_original" placeholder="Введите X для Оригинала в рамке" step="100">
     </div>
     
@@ -116,13 +116,10 @@
             // Формула: R = X + 500 + (Y / 70 * 100)
             const result = x + 500 + (y / 70 * 100);
             
-            // Округление в большую сторону до десятых:
-            // 1. Умножаем на 10
-            // 2. Округляем в большую сторону (Math.ceil)
-            // 3. Делим на 10
-            const roundedResult = Math.ceil(result * 10) / 10;
+            // Округление в большую сторону до ближайшего целого числа
+            const roundedResult = Math.ceil(result);
             
-            return { r: roundedResult.toFixed(1) }; // Фиксируем один знак после точки
+            return { r: roundedResult }; 
         }
 
         /**
